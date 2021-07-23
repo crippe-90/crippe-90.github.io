@@ -1,0 +1,59 @@
+h1{
+  text-align: center;
+  padding-top: 0px;
+}
+
+.row{
+  padding-top: 5%
+}
+.button {
+  background-color: rgb(155,155,155,.5);
+  border: black;
+  color: rgb(255,155,0,1);
+  padding: 30px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+input{
+  width: 80%;
+  height: 15%;
+  border: 1px solid #999999;
+  padding: 5px;
+  font-size: 32px;
+  background-color: grey;
+}
+.button-nr {
+  background-color: rgb(155,155,155,.5);
+  border: white;
+  color: rgb(255,155,0,1);
+  padding: 30px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+html, body {
+    height: 100%;
+    display: inline-block;
+    color: rgb(255,155,0,.7);
+}
+
+html {
+  display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+    background-color: black;
+}
+
+.buttons{
+  position: relative;
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
+}
