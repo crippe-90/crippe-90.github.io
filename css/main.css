@@ -1,0 +1,10 @@
+body{
+  background-color: black;
+}
+
+#main-title{
+    color: rgb(255,155,0,0.5);
+    text-align: center;
+    font-size: 80px;
+    padding-top: 5%;
+}
