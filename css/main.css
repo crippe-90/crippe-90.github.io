@@ -1,10 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Audiowide|Sofia|Trirong');
+
+
 body{
   background-color: black;
 }
 
-#main-title{
+h1{
     color: rgb(255,155,0,0.5);
     text-align: center;
     font-size: 80px;
-    padding-top: 5%;
+
+    font-family: "Audiowide", sans-serif;
+    border-style: groove;
+    border-radius: 10%;
+    border-color: blue;
+}
+h3{
+  color: rgb(255,155,0,0.5);
+  text-align: center;
+  font-size: 50px;
+  font-family: "Audiowide", sans-serif;
+
+}
+body{
+  display: table;
+    margin: auto;
+}
+
+
+a{
+  color: rgb(255,255,0,0.7);
+  font-family: "Audiowide", sans-serif;
+}
+
+ul{
+  justify-content: center;
+  color: rgb(255,155,0,0.5);
+  font-size: 20px;
+  text-align: center;
+}
+
+#row{
+  display: inline-grid;
+}
+
+#about{
+    color:rgb(255,155,0,0.5);
+}
+
+#projects{
+  display: inline-table;
+  width: 50%;
+  border-style: groove;
+  border-radius: 10%;
+  border-color: white;
+  border-width: 50%
 }
