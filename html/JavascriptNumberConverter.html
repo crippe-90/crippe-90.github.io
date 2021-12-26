@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Javascript Number Converter </title>
+<script type="text/javascript" src="../JavaScript/NumberConverter.js" defer></script>
+<link rel="stylesheet" href="../css/JavaScriptNumberConverter.css">
+</head>
+<body>
+<form>
+  <p>
+<h1> JavaScript Base Converter</h1>
+<a href="../index.html">Go Back</a>
+  </p>
+<div id="input-area">
+  <label for="input">input &nbsp;</label>
+  <input typ="text" id="input">
+  <input type="radio" name="choice-from" value="bin">
+  <label for="binary-to">binary</label>
+  <input type="radio" name="choice-from" value="oct">
+  <label for="octal-to">octal</label>
+  <input type="radio" name="choice-from" checked="true" value="dec">
+  <label for="decimal-to">decimal</label>
+  <input type="radio" name="choice-from" value="hex">
+  <label for="hex-to">hex</label>
+</div>
+  <br>
+<div id="output-area">
+  <label for="input">output</label>
+  <input typ="text" id="output">
+  <input type="radio" name="choice-to" checked="true" value="bin">
+  <label for="binary-from">binary</label>
+  <input type="radio" name="choice-to" value="oct">
+  <label for="octal-from">octal</label>
+  <input type="radio" name="choice-to" value="dec">
+  <label for="decimal-from">decimal</label>
+  <input type="radio" name="choice-to" value="hex">
+  <label for="hex-from">hex</label>
+</div>
+<br>
+  <button type="button" id="convert">Convert</button>
+</form>
+</body>
+</html>
