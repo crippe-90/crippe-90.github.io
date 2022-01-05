@@ -35,6 +35,16 @@ input{
   display: inline-block;
   font-size: 16px;
 }
+.data-table{
+  background-color: black;
+  border: 1px;
+  border-color:rgb(255,155,0,.7);
+  color:rgb(255,155,0,.7);
+  width: 80%;
+  height: auto;
+  margin-left: 10%;
+  margin-right: 10%;
+}
 #presentation{
       height: 100%;
       color: rgb(255,155,0,.7);

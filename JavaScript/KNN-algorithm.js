@@ -2,9 +2,9 @@
 const input = document.getElementById('File');
 let k = 7;
 let data = {};
-let dataColors = [];
+//let dataColors = [];
 let titles = [];
-let canvases = [];
+//let canvases = [];
 let summarizedData = [];
 
 input.addEventListener('change', (event) => {
@@ -17,30 +17,39 @@ input.addEventListener('change', (event) => {
       }
 });
 
-//Inte klar
+
 function createTable(){
   const body = document.body,
-        tbl = document.createElement('table');
-  tbl.style.width = '100px';
-  tbl.style.border = '1px solid orange';
-
-
-  for (let i = 0; i < 3; i++) {
-    const tr = tbl.insertRow();
-    for (let j = 0; j < 2; j++) {
-      if (i === 2 && j === 1) {
-        break;
-      } else {
-        const td = tr.insertCell();
-        td.appendChild(document.createTextNode(`Cell I${i}/J${j}`));
-        td.style.border = '1px solid orange';
-        if (i === 1 && j === 1) {
-          td.setAttribute('rowSpan', '2');
-        }
-      }
-    }
+        table = document.createElement('table');
+        table.className = "data-table";
+  const tableRow = table.insertRow();
+  for(let i = 0; i < titles.length; i++){
+    const tableData = tableRow.insertCell();
+    tableData.appendChild(document.createTextNode(titles[i]));
+    tableData.style.border = '1px solid orange';
   }
-  body.appendChild(tbl);
+
+  for (let i = 0; i < data.length; i++) {
+    const tableRow = table.insertRow();
+    let td = tableRow.insertCell();
+    td.style.border = '1px solid orange';
+        td.appendChild(document.createTextNode(data[i]["\"sepallength\""]));
+    td = tableRow.insertCell()
+    td.style.border = '1px solid orange';
+        td.appendChild(document.createTextNode(data[i]["\"sepalwidth\""]));
+    td = tableRow.insertCell()
+    td.style.border = '1px solid orange';
+        td.appendChild(document.createTextNode(data[i]["\"petallength\""]));
+    td = tableRow.insertCell()
+    td.style.border = '1px solid orange';
+        td.appendChild(document.createTextNode(data[i]["\"petalwidth\""]));
+    td = tableRow.insertCell()
+    td.style.border = '1px solid orange';
+        td.appendChild(document.createTextNode(data[i]["\"class\""]));
+    td.style.border = '1px solid orange';
+      }
+
+  body.appendChild(table);
 
 }
 
@@ -92,7 +101,7 @@ function getMostFrequent(nn) {
 return Object.keys(hashmap).reduce((a, b) => hashmap[a] > hashmap[b] ? a : b)
 }
 
-function clasifyData(){
+function classifyData(){
   for(let i = 0; i < data.length; i++){
     let nn = getKNearestNeighbours(data[i], k);
     let predictedClassName = getMostFrequent(nn);
@@ -101,6 +110,7 @@ function clasifyData(){
   createTable();
 }
 
+/*
 function getColor(c){
   for(let i = 0; i < dataColors.length; i++){
     if(c===dataColors[i].dataClass){
@@ -228,7 +238,7 @@ function createCanvas(textString){
   tag.appendChild(text);
   body.appendChild(tag);
 }
-
+*/
 function readSingleFile(e) {
     let file = e[0];
     if (!file) {
@@ -239,11 +249,14 @@ function readSingleFile(e) {
       var fileContent = e.target.result;
       data = parseFileToJson(fileContent);
       titles = Object.keys(data[0]);
+      classifyData();
+      /*
       setDataClassColors();
       createCanvas("Sepal length and width.");
       createCanvas("Petal length and width.");
       plotData(0);
       plotData(1);
+      */
     };
     reader.readAsText(file);
   }
