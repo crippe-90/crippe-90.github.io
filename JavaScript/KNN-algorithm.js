@@ -1,10 +1,10 @@
 
 const input = document.getElementById('File');
-let k = 7;
+const k = 7;
 let data = {};
-//let dataColors = [];
+let dataColors = [];
 let titles = [];
-//let canvases = [];
+let canvases = [];
 let summarizedData = [];
 
 input.addEventListener('change', (event) => {
@@ -17,8 +17,48 @@ input.addEventListener('change', (event) => {
       }
 });
 
+function showOptions(){
+  for(let i = 0; i < titles.length -1; i++){
+    let radiobox = document.createElement('input');
+    radiobox.type = 'radio';
+    radiobox.id = 'datapoint1';
+    radiobox.value = titles[i];
 
-function createTable(){
+    var label = document.createElement('label')
+    label.htmlFor = 'choice 1';
+
+    var description = document.createTextNode(titles[i]);
+    label.appendChild(description);
+
+    var newline = document.createElement('br');
+
+    var container = document.getElementById('show-options');
+    container.appendChild(radiobox);
+    container.appendChild(label);
+    container.appendChild(newline);
+  }
+  for(let i = 0; i < titles.length -1; i++){
+    var radiobox = document.createElement('input');
+    radiobox.type = 'radio';
+    radiobox.id = 'datapoint2';
+    radiobox.value = titles[i];
+
+    var label = document.createElement('label')
+    label.htmlFor = 'choice 2';
+
+    var description = document.createTextNode(titles[i]);
+    label.appendChild(description);
+
+    var newline = document.createElement('br');
+
+    var container = document.getElementById('show-options');
+    container.appendChild(radiobox);
+    container.appendChild(label);
+    container.appendChild(newline);
+  }
+}
+//Plots all data
+function plotAllDataInTable(){
   const body = document.body,
         table = document.createElement('table');
         table.className = "data-table";
@@ -31,33 +71,23 @@ function createTable(){
 
   for (let i = 0; i < data.length; i++) {
     const tableRow = table.insertRow();
-    let td = tableRow.insertCell();
-    td.style.border = '1px solid orange';
-        td.appendChild(document.createTextNode(data[i]["\"sepallength\""]));
-    td = tableRow.insertCell()
-    td.style.border = '1px solid orange';
-        td.appendChild(document.createTextNode(data[i]["\"sepalwidth\""]));
-    td = tableRow.insertCell()
-    td.style.border = '1px solid orange';
-        td.appendChild(document.createTextNode(data[i]["\"petallength\""]));
-    td = tableRow.insertCell()
-    td.style.border = '1px solid orange';
-        td.appendChild(document.createTextNode(data[i]["\"petalwidth\""]));
-    td = tableRow.insertCell()
-    td.style.border = '1px solid orange';
-        td.appendChild(document.createTextNode(data[i]["\"class\""]));
-    td.style.border = '1px solid orange';
-      }
-
+    for(let j = 0; j < titles.length; j++){
+      let td = tableRow.insertCell();
+      td.style.border = '1px solid orange';
+          td.appendChild(document.createTextNode(data[i][titles[j]]));
+    }
+  }
   body.appendChild(table);
 
 }
 
+//Get the largest distance in an array.
 function largestNumberInArr(arr){
   arr.sort((a, b) => {return a.distance - b.distance;});
   return arr[arr.length-1].distance;
 }
 
+//Find the k nearest neigbour for each datapoint
 function getKNearestNeighbours(d,k){
   let k_nn = [];
   for(let x = 0; x < k; x++){
@@ -80,6 +110,7 @@ function getKNearestNeighbours(d,k){
     return k_nn;
 }
 
+//Euclidean distance in 2d
 function calculateDistance(nn,d){
   let nn_x_pos = nn["\"petalwidth\""];
   let d_x_pos = d["\"petalwidth\""];
@@ -88,6 +119,7 @@ function calculateDistance(nn,d){
   return Math.sqrt(((nn_x_pos - d_x_pos)*(nn_x_pos - d_x_pos)) + ((nn_y_pos - d_y_pos)*(nn_y_pos - d_y_pos)));
 }
 
+//Gets the most frequent occuring class name from the k nearest neigbour.
 function getMostFrequent(nn) {
   let classNames = [];
   for(let i = 0; i < nn.length; i++){
@@ -101,16 +133,59 @@ function getMostFrequent(nn) {
 return Object.keys(hashmap).reduce((a, b) => hashmap[a] > hashmap[b] ? a : b)
 }
 
+//For each datapoints, get k nearest neigbour and the most occuring class from those neigbours.
 function classifyData(){
   for(let i = 0; i < data.length; i++){
     let nn = getKNearestNeighbours(data[i], k);
     let predictedClassName = getMostFrequent(nn);
-    summarizedData.push({originalData: data[i], predictedClassName: predictedClassName});
+    data[i]["Predicted class"] = predictedClassName;
   }
-  createTable();
+
+  plotAllDataInTable();
 }
 
-/*
+//Reads a single file .csv file, converts it to an object.
+function readSingleFile(e) {
+    let file = e[0];
+    if (!file) {
+      return;
+    }
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      var fileContent = e.target.result;
+      data = parseFileToJson(fileContent);
+      titles = Object.keys(data[0]);
+      titles.push("Predicted class");
+      showOptions();
+      //classifyData();
+      /*
+      setDataClassColors();
+      createCanvas("Sepal length and width.");
+      createCanvas("Petal length and width.");
+      plotData(0);
+      plotData(1);
+      */
+    };
+    reader.readAsText(file);
+  }
+
+//Parses file to JSON.
+function parseFileToJson(fileString){
+    let arr = fileString.split('\n');
+    let jsonObj = [];
+    let headers = arr[0].split(',');
+    for(let i = 1; i < arr.length-1; i++) {
+      let data = arr[i].split(',');
+      let obj = {};
+      for(let j = 0; j < data.length; j++) {
+        obj[headers[j].trim()] = data[j].trim();
+        }
+      jsonObj.push(obj);
+    }
+    return jsonObj;
+}
+
+//Randomly assigns color to the different classes(currently not in use)
 function getColor(c){
   for(let i = 0; i < dataColors.length; i++){
     if(c===dataColors[i].dataClass){
@@ -119,6 +194,7 @@ function getColor(c){
   }
 }
 
+//Plots the data on canvas(currently not in use)
 function plotData(index){
   if(index===0){
     for(let i = 0; i<data.length; i++){
@@ -143,6 +219,7 @@ else{
   }
 }
 
+//Sets color for the different data-classes on the canvas(currently not in use)
 function setDataClassColors(){
   for(let i = 0; i<data.length; i++){
     let dClass = data[i]["\"class\""]
@@ -153,6 +230,7 @@ function setDataClassColors(){
   }
 }
 
+//Draws circles on the canvas(currently not in use)
 function drawCircle(canvas,x=0,y=0, color){
   var context = canvas.getContext("2d");
   var posx = x;
@@ -163,6 +241,7 @@ function drawCircle(canvas,x=0,y=0, color){
   context.fill();
 }
 
+//Draws a grid on canvas(currently not in use)
 function drawGrid(canvas){
   const ctx = canvas.getContext("2d");
   grid_size = 25;
@@ -224,6 +303,7 @@ for(i=0; i<=20; i++) {
 }
 }
 
+//Creates canvases (currently not in use)
 function createCanvas(textString){
   var canvas = document.createElement('canvas');
   canvas.className = "graphics";
@@ -237,41 +317,4 @@ function createCanvas(textString){
   let text = document.createTextNode(textString);
   tag.appendChild(text);
   body.appendChild(tag);
-}
-*/
-function readSingleFile(e) {
-    let file = e[0];
-    if (!file) {
-      return;
-    }
-    let reader = new FileReader();
-    reader.onload = function(e) {
-      var fileContent = e.target.result;
-      data = parseFileToJson(fileContent);
-      titles = Object.keys(data[0]);
-      classifyData();
-      /*
-      setDataClassColors();
-      createCanvas("Sepal length and width.");
-      createCanvas("Petal length and width.");
-      plotData(0);
-      plotData(1);
-      */
-    };
-    reader.readAsText(file);
-  }
-
-function parseFileToJson(fileString){
-    let arr = fileString.split('\n');
-    let jsonObj = [];
-    let headers = arr[0].split(',');
-    for(let i = 1; i < arr.length-1; i++) {
-      let data = arr[i].split(',');
-      let obj = {};
-      for(let j = 0; j < data.length; j++) {
-        obj[headers[j].trim()] = data[j].trim();
-        }
-      jsonObj.push(obj);
-    }
-    return jsonObj;
 }
