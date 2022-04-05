@@ -1,7 +1,7 @@
 
 
 class Map{
-    constructor(accessToken, containerID, amountOfMarkers=3000){
+    constructor(accessToken, containerID="map", amountOfMarkers=30){
         mapboxgl.accessToken = accessToken;
         this.map = new mapboxgl.Map({
             container: containerID,
