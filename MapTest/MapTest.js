@@ -1,7 +1,10 @@
-
+console.log("MapTest.js is running test 1.");
 
 class Map{
     constructor(accessToken, containerID, amountOfMarkers=30){
+        console.log("accestoken", accessToken);
+        console.log("containerID", containerID);
+
         mapboxgl.accessToken = accessToken;
         this.map = new mapboxgl.Map({
             container: containerID,
@@ -9,6 +12,7 @@ class Map{
             center: [-96, 37.8],
             zoom: 3
         });
+        /*
         const data = new TestData(amountOfMarkers);
         this.geojson = data.getGeojson();
         this.addMarkers(this.map);
@@ -26,8 +30,12 @@ class Map{
                el.style.backgroundImage = 'url("./PNG/happy.png")';
             }
         });
+        */
     }
-
+    init() {
+        return this.map;
+      }
+    /*
     addMarkers(parent){
         for(let x = 0; x < this.geojson.features.length; x++){
             const feature = this.geojson.features[x];
@@ -49,10 +57,14 @@ class Map{
             .addTo(parent);
 
         }
+       
 
     }
+     */
+
 }
 
+/*
 class TestData{
     constructor(amountOfPoints){
         this.geojson = this.createRandomData(amountOfPoints);
@@ -96,7 +108,6 @@ class TestData{
         return longitude;
     }
 }
-
-
+*/
 
 
