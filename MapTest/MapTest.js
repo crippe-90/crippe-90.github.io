@@ -4,7 +4,7 @@ class Map{
     constructor(accessToken, containerID="map", amountOfMarkers=30){
         mapboxgl.accessToken = accessToken;
         this.map = new mapboxgl.Map({
-            container: containerID,
+            container: "map",//containerID,
             style: 'mapbox://styles/mapbox/light-v10',
             center: [-96, 37.8],
             zoom: 3
